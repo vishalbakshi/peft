@@ -698,7 +698,7 @@ class Linear(nn.Module, LoraLayer):
             self.lora_A[adapter].weight.data = weight_A.to(dtype)
             self.lora_B[adapter].weight.data = weight_B.to(dtype)
 
-        return output_tensor.to(dtype=dtype) # .to added by Vishal
+        return output_tensor.to(torch.bfloat16) # .to added by Vishal
 
     def forward(self, x: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
         self._check_forward_args(x, *args, **kwargs)
