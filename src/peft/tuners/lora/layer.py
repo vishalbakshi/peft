@@ -573,6 +573,7 @@ class Linear(nn.Module, LoraLayer):
         for active_adapter in adapter_names:
             if active_adapter in self.lora_A.keys():
                 base_layer = self.get_base_layer()
+                og_base_layer_weight = base_layer.weight # added by Vishal
                 if safe_merge:
                     # Note that safe_merge will be slower than the normal merge
                     # because of the copy operation.
@@ -638,6 +639,7 @@ class Linear(nn.Module, LoraLayer):
                         base_layer.bias.data += self.lora_B[active_adapter].bias
 
                 self.merged_adapters.append(active_adapter)
+        return og_base_layer_weight, delta_weight, base_layer.weight # added by Vishal
 
     def unmerge(self) -> None:
         """
