@@ -679,6 +679,7 @@ class Linear(nn.Module, LoraLayer):
         # (b)float16 while being on CPU, we need to cast the weights to float32, perform the merge and then cast back to
         # (b)float16 because some CPUs have slow bf16/fp16 matmuls.
         cast_to_fp32 = device.type == "cpu" and (dtype == torch.float16 or dtype == torch.bfloat16)
+        print(f"cast_to_fp32: {cast_to_fp32}") # added by Vishal
 
         weight_A = self.lora_A[adapter].weight
         weight_B = self.lora_B[adapter].weight
