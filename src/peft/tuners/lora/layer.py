@@ -573,6 +573,7 @@ class Linear(nn.Module, LoraLayer):
         for active_adapter in adapter_names:
             if active_adapter in self.lora_A.keys():
                 base_layer = self.get_base_layer()
+                print(f"base_layer.dtype: {base_layer.dtype}") # added by Vishal
                 og_base_layer_weight = deepcopy(base_layer.weight) # added by Vishal
                 if safe_merge:
                     # Note that safe_merge will be slower than the normal merge
@@ -614,7 +615,9 @@ class Linear(nn.Module, LoraLayer):
 
                 else:
                     delta_weight = self.get_delta_weight(active_adapter)
+                    print(f"delta_weight.dtype: {delta_weight.dtype}") # added by Vishal
                     if not self.use_dora[active_adapter]:
+                        print(f"base_layer.weight.data.dtype: {base_layer.weight.data.dtype}") # added by Vishal
                         base_layer.weight.data += delta_weight
                     else:
                         # handle dora
