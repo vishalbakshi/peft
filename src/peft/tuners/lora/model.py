@@ -527,7 +527,7 @@ class LoraModel(BaseTuner):
                     )
                     self._replace_module(parent, target_name, unloaded_module, target)
                 elif hasattr(target, "base_layer"):
-                    if merge:
+                    if merge and target_name == "q_proj":
                         target.merge(safe_merge=safe_merge, adapter_names=adapter_names)
                     self._replace_module(parent, target_name, target.get_base_layer(), target)
 
