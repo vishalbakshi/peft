@@ -674,6 +674,7 @@ class Linear(nn.Module, LoraLayer):
         """
         device = self.lora_B[adapter].weight.device
         dtype = self.lora_B[adapter].weight.dtype
+        print(f"dtype: {dtype}") # added by Vishal
 
         # In case users wants to merge the adapter weights that are in
         # (b)float16 while being on CPU, we need to cast the weights to float32, perform the merge and then cast back to
@@ -697,7 +698,7 @@ class Linear(nn.Module, LoraLayer):
             self.lora_A[adapter].weight.data = weight_A.to(dtype)
             self.lora_B[adapter].weight.data = weight_B.to(dtype)
 
-        return output_tensor
+        return output_tensor.to(dtype=dtype) # .to added by Vishal
 
     def forward(self, x: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
         self._check_forward_args(x, *args, **kwargs)
