@@ -613,9 +613,7 @@ class Linear(nn.Module, LoraLayer):
                         base_layer.bias.data = new_bias
 
                 else:
-                    weight_A, weight_B = self.get_delta_weight(active_adapter) # added by Vishal
-                    return weight_A, weight_B
-                   # delta_weight = self.get_delta_weight(active_adapter)
+                    delta_weight = self.get_delta_weight(active_adapter)
                     if not self.use_dora[active_adapter]:
                         base_layer.weight.data += delta_weight
                     else:
