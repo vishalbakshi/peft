@@ -613,7 +613,9 @@ class Linear(nn.Module, LoraLayer):
                         base_layer.bias.data = new_bias
 
                 else:
-                    delta_weight = self.get_delta_weight(active_adapter)
+                    weight_A, weight_B = self.get_delta_weight(active_adapter) # added by Vishal
+                    return weight_A, weight_B
+                   # delta_weight = self.get_delta_weight(active_adapter)
                     if not self.use_dora[active_adapter]:
                         base_layer.weight.data += delta_weight
                     else:
@@ -688,6 +690,7 @@ class Linear(nn.Module, LoraLayer):
             weight_A = weight_A.float()
             weight_B = weight_B.float()
 
+        return weight_A, weight_B # added by Vishal
         output_tensor = transpose(weight_B @ weight_A, self.fan_in_fan_out) * self.scaling[adapter]
 
         if cast_to_fp32:
