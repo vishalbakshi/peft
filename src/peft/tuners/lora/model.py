@@ -528,7 +528,6 @@ class LoraModel(BaseTuner):
                     self._replace_module(parent, target_name, unloaded_module, target)
                 elif hasattr(target, "base_layer"):
                     if merge:
-                        print("Calling target.merge...")
                         target.merge(safe_merge=safe_merge, adapter_names=adapter_names)
                     self._replace_module(parent, target_name, target.get_base_layer(), target)
 
@@ -898,7 +897,6 @@ class LoraModel(BaseTuner):
         >>> merged_model = model.merge_and_unload()
         ```
         """
-        print("Line 900 - merge_and_unload before return statement")
         return self._unload_and_optionally_merge(
             progressbar=progressbar, safe_merge=safe_merge, adapter_names=adapter_names
         )
